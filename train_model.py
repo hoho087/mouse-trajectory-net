@@ -69,7 +69,7 @@ def train_model(jsonl_file, save_path="mouse_traj.onnx", epochs=50, batch_size=3
         dynamic_axes={"input": {0: "batch"}, "trajectory": {0: "batch"}},
         opset_version=11
     )
-    print(f"模型已保存為 {save_path}")
+    print(f"Model saved as{save_path}")
 
 if __name__ == "__main__":
     train_model("mouse_dataset.jsonl")

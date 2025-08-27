@@ -22,6 +22,8 @@ POINT_COLOR = (255, 0, 200)   # 點顏色
 RADIUS = 20  # 小球參數
 POINT_RADIUS = 6  # 點半徑
 
+last_saved_count = 0  
+
 def load_cjk_font(size=20):
     candidates_path = [
         "SourceHanSansTC-Heavy.otf",            
@@ -80,7 +82,20 @@ def interpolate_points(points, num=10):
 
     return np.array(new_points)
 
+def truncate_last_lines(filename, n):
+    if n <= 0 or not os.path.exists(filename):
+        return
+    with open(filename, "r", encoding="utf-8") as f:
+        lines = f.readlines()
+    if n > len(lines):
+        n = len(lines)
+    with open(filename, "w", encoding="utf-8") as f:
+        f.writelines(lines[:-n])
+
 def save_json(dataset, filename="mouse_dataset.jsonl"):
+    global last_saved_count
+    truncate_last_lines(filename, last_saved_count)
+
     with open(filename, "a", encoding="utf-8") as f:
         for (dx_dy, traj_rel) in dataset:
             dx, dy = dx_dy
@@ -89,6 +104,8 @@ def save_json(dataset, filename="mouse_dataset.jsonl"):
                 "trajectory": [[int(round(x)), int(round(y))] for x, y in traj_rel]
             }
             f.write(json.dumps(record, ensure_ascii=False) + "\n")
+
+    last_saved_count = len(dataset)
     print(f"{len(dataset)} samples saved -> {filename}")
 
 def draw_instructions():
@@ -155,7 +172,6 @@ def collect_data():
                     if dataset:
                         item = dataset.pop()
                         undone.append(item)
-                        # 顯示更前一次樣本的切分點（如果還有的話）
                         if dataset:
                             last_rel = dataset[-1][1]
                             traj_points = rel_to_abs_points(last_rel)
@@ -182,7 +198,6 @@ def collect_data():
                         tx = random.randint(50, WIDTH-50)
                         ty = random.randint(50, HEIGHT-50)
 
-                    # 確保不會跑到畫面外
                     target_pos = (max(50, min(WIDTH-50, tx)), max(50, min(HEIGHT-50, ty)))
                     target_color = random.choice(COLORS[1:])
                     collecting = True

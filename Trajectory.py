@@ -89,14 +89,15 @@ def save_json(dataset, filename="mouse_dataset.jsonl"):
                 "trajectory": [[int(round(x)), int(round(y))] for x, y in traj_rel]
             }
             f.write(json.dumps(record, ensure_ascii=False) + "\n")
-    print(f"已保存 {len(dataset)} 筆樣本 -> {filename}")
+    print(f"{len(dataset)} samples saved -> {filename}")
 
 def draw_instructions():
     texts = [
-        "S：保存資料",
-        "Z / D：撤銷 (Undo)",
-        "ESC：離開",
-        "操作：先點中間球開始 → 再點目標球結束"
+        "S：SAVE",
+        "Z / D：Undo",
+        "ESC：Stop collecting",
+        "Click the center ball to start",
+        "then the target ball to finish"
     ]
     for i, t in enumerate(texts):
         img = font.render(t, True, WHITE)
@@ -165,7 +166,7 @@ def collect_data():
                         target_pos = None
                         target_color = None
                         winsound.Beep(400, 200)
-                        print("撤銷一筆")
+                        print("Undo")
 
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mx, my = pygame.mouse.get_pos()

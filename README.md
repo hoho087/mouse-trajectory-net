@@ -41,7 +41,9 @@ pip install -r requirements.txt
 python main.py
 ```
 Interactive menu for data collection, training, testing, and logs.  
+You can switch the interface language(between English and Chinese)  
 圖形化功能選單，提供資料蒐集、訓練、測試與日誌功能。  
+可以在介面中切換中英顯示  
 
 ---
 

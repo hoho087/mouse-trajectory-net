@@ -11,6 +11,34 @@ import Trajectory
 import train_model
 import test_model
 
+# ===================== 英文領域高手 =====================
+current_lang = "zh"
+
+LANG_TEXTS = {
+    "zh": {
+        "menu_title": "功能選單",
+        "collect": "收集資料",
+        "train": "訓練模型",
+        "test": "測試模型",
+        "log": "查看日誌",
+        "quit": "退出",
+        "lang": "English",
+        "test_title": "測試模型 (ESC 返回)",
+        "log_title": "日誌面板 (ESC 返回)"
+    },
+    "en": {
+        "menu_title": "Main Menu",
+        "collect": "Collect Data",
+        "train": "Train Model",
+        "test": "Test Model",
+        "log": "View Logs",
+        "quit": "Quit",
+        "lang": "中文",
+        "test_title": "Test Model (ESC to return)",
+        "log_title": "Log Panel (ESC to return)"
+    }
+}
+
 pygame.init()
 
 WIDTH, HEIGHT = 1000, 700
@@ -89,6 +117,9 @@ class Button:
         self.action = action
         self.pressed = False
 
+    def get_text(self):
+        return self.text() if callable(self.text) else self.text
+
     def draw(self, win, mouse_pos):
         if self.rect.collidepoint(mouse_pos):
             self.color = adjust_color(self.base_color, BTN_HOVER_OFFSET)
@@ -97,7 +128,7 @@ class Button:
         if self.pressed:
             self.color = adjust_color(self.base_color, -40)
         pygame.draw.rect(win, self.color, self.rect, border_radius=12)
-        txt = FONT.render(self.text, True, WHITE)
+        txt = FONT.render(self.get_text(), True, WHITE)
         win.blit(txt, (self.rect.centerx - txt.get_width()//2,
                        self.rect.centery - txt.get_height()//2))
 
@@ -147,13 +178,15 @@ def test_model_main(dx=100, dy=50):
 
 # ===================== 主選單 =====================
 def main_menu():
+    global current_lang
     clock = pygame.time.Clock()
     buttons = [
-        Button("收集資料", 50, 100, 180, 50, BTN_COLORS["collect"], "collect"),
-        Button("訓練模型", 50, 180, 180, 50, BTN_COLORS["train"], "train"),
-        Button("測試模型", 50, 260, 180, 50, BTN_COLORS["test"], "test"),
-        Button("查看日誌", 50, 340, 180, 50, BTN_COLORS["log"], "log"),
-        Button("退出",     50, 420, 180, 50, BTN_COLORS["quit"], "quit"),
+        Button(lambda: LANG_TEXTS[current_lang]["collect"], 50, 100, 180, 50, BTN_COLORS["collect"], "collect"),
+        Button(lambda: LANG_TEXTS[current_lang]["train"],   50, 180, 180, 50, BTN_COLORS["train"], "train"),
+        Button(lambda: LANG_TEXTS[current_lang]["test"],    50, 260, 180, 50, BTN_COLORS["test"], "test"),
+        Button(lambda: LANG_TEXTS[current_lang]["log"],     50, 340, 180, 50, BTN_COLORS["log"], "log"),
+        Button(lambda: LANG_TEXTS[current_lang]["quit"],    50, 420, 180, 50, BTN_COLORS["quit"], "quit"),
+        Button(lambda: LANG_TEXTS[current_lang]["lang"],    50, 500, 180, 50, (150,150,50), "lang"),
     ]
 
     run = True
@@ -162,7 +195,7 @@ def main_menu():
         WIN.fill(BG_COLOR)
         pygame.draw.rect(WIN, PANEL_COLOR, (0,0,280,HEIGHT))
 
-        title = FONT.render("功能選單", True, WHITE)
+        title = FONT.render(LANG_TEXTS[current_lang]["menu_title"], True, WHITE)
         WIN.blit(title, (90,40))
 
         for btn in buttons:
@@ -189,6 +222,8 @@ def main_menu():
                             log_page()
                         elif btn.action=="quit":
                             run=False
+                        elif btn.action=="lang":
+                            current_lang = "en" if current_lang=="zh" else "zh"
             elif event.type == pygame.MOUSEBUTTONUP:
                 for btn in buttons:
                     btn.pressed = False
@@ -209,7 +244,7 @@ def test_page():
     run = True
     while run:
         WIN.fill(BG_COLOR)
-        title = FONT.render("測試模型 (ESC 返回)", True, WHITE)
+        title = FONT.render(LANG_TEXTS[current_lang]["test_title"], True, WHITE)
         WIN.blit(title, (50,40))
 
         dx_rect = pygame.Rect(50, 100, 100, 40)
@@ -271,7 +306,7 @@ def log_page():
 
     while run:
         WIN.fill(BG_COLOR)
-        title=FONT.render("日誌面板 (ESC 返回)",True,WHITE)
+        title = FONT.render(LANG_TEXTS[current_lang]["log_title"], True, WHITE)
         WIN.blit(title,(50,40))
 
         log_area = pygame.Surface((WIDTH-100, HEIGHT-150))

@@ -3,7 +3,7 @@
 This project collects mouse movement trajectories and trains a neural network to predict cursor paths based on relative displacement `(dx, dy)`  
 Hope to resolve the mouse trajectory detection issue  
 
-本專案的目標是透過蒐集滑鼠移動資料，訓練一個神經網路模型，讓電腦能夠根據滑鼠的起點與相對位移 `(dx, dy)`，預測完整的滑鼠軌跡  
+本專案的目標是透過蒐集滑鼠移動資料，訓練一個簡單的神經網路模型，讓電腦能夠根據滑鼠的起點與相對位移 `(dx, dy)`，預測完整的滑鼠軌跡  
 希望能解決鼠標軌跡檢測的問題  
 
 ![image](https://github.com/hoho087/mouse-trajectory-net/blob/main/image.png)
@@ -61,12 +61,3 @@ Each record is stored as JSONL:
 - **Input 輸入**: `(dx, dy)`  
 - **Output 輸出**: 10 trajectory points (20 values) / 10 個軌跡點 (共 20 個數值)  
 - **Architecture 架構**: Multi-Layer Perceptron (MLP) with ReLU  
-
----
-
-## Requirements / 環境需求
-- Python 3.8+  
-- PyTorch  
-- onnxruntime  
-- pygame  
-- numpy  

@@ -1,10 +1,12 @@
 # mouse-trajectory-net
 
-This project collects mouse movement trajectories and trains a neural network to predict cursor paths based on relative displacement `(dx, dy)`  
+This project is to train a simple neural network model by collecting mouse movement data, enabling the computer to predict mouse trajectories resembling those of a human based on the starting point and relative displacement `(dx, dy)` of the mouse    
 Hope to resolve the mouse trajectory detection issue  
+Since it will be used in conjunction with control algorithms such as PID, the trajectory is not segmented based on time but rather divided according to its total length  
 
-本專案的目標是透過蒐集滑鼠移動資料，訓練一個簡單的神經網路模型，讓電腦能夠根據滑鼠的起點與相對位移 `(dx, dy)`，預測完整的滑鼠軌跡  
+本專案的目標是透過蒐集滑鼠移動資料，訓練一個簡單的神經網路模型，讓電腦能夠根據滑鼠的起點與相對位移 `(dx, dy)`，預測擬人滑鼠軌跡  
 希望能解決鼠標軌跡檢測的問題  
+因為會與pid等控制算法共同使用，所以切分軌跡並不使用時間去切分，而是以軌跡的總長度切分  
 
 ![image](https://github.com/hoho087/mouse-trajectory-net/blob/main/image.png)
 

@@ -8,7 +8,7 @@ Since it will be used in conjunction with control algorithms such as PID, the tr
 希望能解決鼠標軌跡檢測的問題  
 因為會與pid等控制算法共同使用，所以切分軌跡並不使用時間去切分，而是以軌跡的總長度切分  
 
-![image](https://github.com/hoho087/mouse-trajectory-net/blob/main/image.png)
+![image](https://github.com/hoho087/mouse-trajectory-net/blob/main/figure.png)
 
 ---
 
